@@ -40,7 +40,7 @@ This serverless micro-architecture design implements several AWS services in ord
 
 ---
 ### Overview
-![[AWS-serverless-static-webapp.svg]]
+![architecture overview](AWS-serverless-static-webapp.svg)
 
 
 
