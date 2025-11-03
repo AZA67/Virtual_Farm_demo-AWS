@@ -1,10 +1,10 @@
 # Virtual Farm web-app via AWS
-[Live Site] (https://qmgnyc.dev)
+[Live Site](https://qmgnyc.dev)
 
 **TLDR;**
 This serverless micro-architecture design implements several AWS services in order to construct a scalable, cost-friendly architecture; ideal for demoing web applications or lightweight backend application logic.
 
-### IaC terraform configuration added [[./terraform/README.md]]
+### IaC terraform configuration added [HERE](https://github.com/AZA67/Virtual_Farm_demo-AWS/tree/main/terraform)
 
 **AWS services utilized**:
 - Route53
