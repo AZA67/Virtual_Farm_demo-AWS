@@ -18,15 +18,15 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 ## - Package the Lambda function code (do later)
-#data "archive_file" "example" {
-#  type        = "zip"
-#  source_file = "${path.module}/lambda/index.js"
-#  output_path = "${path.module}/lambda/function.zip"
-#}
+data "archive_file" "lambda_handler" {
+  type        = "zip"
+  source_file = "${var.lambda_dir}/handler.py"
+  output_path = "${var.lambda_dir}/function.zip"
+}
 
 # Lambda function
 resource "aws_lambda_function" "backend" {
-  filename         = "../../../priv-resources/function.zip" #[ADD AFTER CONFIGURATION OF THIS BLOCK]data.archive_file.example.output_path
+  filename         = "${var.lambda_dir}/function.zip" 
   function_name    = "${var.project_name}-lambda_function"
   role             = aws_iam_role.lambda_exec.arn
   handler          = "handler.handler" #[module.function_name(referenced in handler.py)]
@@ -40,6 +40,6 @@ resource "aws_lambda_function" "backend" {
   }
 
   tags = {
-    name = "${var.project_name}-table"
+    name = "${var.project_name}"
   }
 }

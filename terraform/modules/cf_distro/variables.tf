@@ -2,6 +2,10 @@ variable "project_name" {
   type = string
 }
 
+variable "region" {
+  type = string
+}
+
 #s3-resources#
 variable "bucket_regional_domain_name" {
     type = string
@@ -24,9 +28,9 @@ variable "domain_name" {
 }
 
 #http api resources#
-variable "http_api_endpoint" {
+variable "http_api_id" {
   type = string
-  description = "used as domain name for api gateway Origin"
+  description = "used for the `id` portion of apigateway origin.domain_name"
 }
 
 variable "acm_certificate_arn" {

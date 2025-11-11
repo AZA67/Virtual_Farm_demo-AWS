@@ -38,14 +38,7 @@ resource "aws_s3_bucket_policy" "b" {
 
 
 
-#-----CloudFront Distro COnfig----#
-data "aws_acm_certificate" "acm-cert" {
-  region   = "us-east-1"
-  domain   = "*.${var.domain_name}"
-  statuses = ["AMAZON_ISSUED"]
-  most_recent = true 
-}
-
+#-----CloudFront Distro pre-config----#
 resource "aws_cloudfront_origin_access_control" "default" {
     name = "default"
     origin_access_control_origin_type = "s3"
@@ -63,6 +56,10 @@ locals {
 #AWS provided policies for API ORIGIN#
 data "aws_cloudfront_cache_policy" "no_cache" {
   name = "Managed-CachingDisabled"
+}
+
+data "aws_cloudfront_cache_policy" "s3_cache" {
+  name = "Managed-CachingOptimized"
 }
 
 data "aws_cloudfront_origin_request_policy" "all_viewer_except_host" {
@@ -91,25 +88,16 @@ resource "aws_cloudfront_distribution" "cdn" {
       allowed_methods = ["GET", "HEAD"]
       cached_methods = ["GET", "HEAD"]
       compress = true
+
+      cache_policy_id = data.aws_cloudfront_cache_policy.s3_cache.id
     }
     #----------------------------#
 
-    viewer_certificate {
-      acm_certificate_arn = var.acm_certificate_arn
-      ssl_support_method = "sni-only"
-      minimum_protocol_version = "TLSv1.2_2021"
-    }
 
-    restrictions {
-      geo_restriction {
-        restriction_type = "blacklist"
-        locations = ["RU", "CN"]
-      }
-    }
 
     #---API gateway ORIGIN---#
     origin {
-      domain_name = var.http_api_endpoint
+      domain_name = "${var.http_api_id}.execute-api.${var.region}.amazonaws.com"
       origin_id = local.api_origin_id
 
       custom_origin_config {
@@ -130,5 +118,19 @@ resource "aws_cloudfront_distribution" "cdn" {
 
       cache_policy_id            = data.aws_cloudfront_cache_policy.no_cache.id
       origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.all_viewer_except_host.id
+    }
+    #------------------------#
+
+    viewer_certificate {
+      acm_certificate_arn = var.acm_certificate_arn
+      ssl_support_method = "sni-only"
+      minimum_protocol_version = "TLSv1.2_2021"
+    }
+
+    restrictions {
+      geo_restriction {
+        restriction_type = "blacklist"
+        locations = ["RU", "CN"]
+      }
     }
 }

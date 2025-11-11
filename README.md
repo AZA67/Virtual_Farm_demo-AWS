@@ -2,26 +2,33 @@
 [Live Site](https://qmgnyc.dev)
 
 **TLDR;**
-This serverless micro-architecture design implements several AWS services in order to construct a scalable, cost-friendly architecture; ideal for demoing web applications or lightweight backend application logic.
+*This serverless micro-architecture design implements several AWS services in order to construct a scalable, cost-friendly architecture; ideal for demoing web applications or lightweight backend application logic.*
 
-### IaC terraform configuration added [HERE](https://github.com/AZA67/Virtual_Farm_demo-AWS/tree/main/terraform)
+---
+# Configuration via [Terraform](https://github.com/AZA67/Virtual_Farm_demo-AWS/tree/main/terraform)
+- this configuration provisions a customizable replica of the [live site](https://qmgnyc.dev) from scratch
+- there is a [setup script](https://github.com/AZA67/Virtual-Farm_demo-AWS/tree/main/terraform/setup.sh) I crafted to make the initial configuration easier.
+- learn more [here](https://github.com/AZA67/Virtual_Farm_demo-AWS/tree/main/terraform) 
 
-**AWS services utilized**:
+---
+
+**TO BE ADDED SOON**
+- bash scripts for aws-cli
+- full walkthrough
+- future considerations
+
+---
+
+## AWS services utilized
 - Route53
 - Lambda
 - Cloudfront
-- Web Application Firewall 
+- Web Application Firewall (WAF)
 - S3 standard bucket
 - Cloudwatch
 - DynamoDB
 - Amazon Certificate Manager
 - API Gateway (HTTP API)
-
-**TO BE ADDED SOON**
-- yaml configuration files
-- bash scripts for aws-cli
-- full walkthrough
-- future considerations
 
 ---
 ### Pricing 
