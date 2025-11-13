@@ -16,6 +16,7 @@
 - bash scripts for aws-cli
 - full walkthrough
 - future considerations
+-----------------------
 
 ---
 
