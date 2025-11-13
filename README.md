@@ -1,4 +1,5 @@
-# Virtual Farm web-app via AWS
+# A Virtual Farm 
+**A cloud-native serverless web application**
 [Live Site](https://qmgnyc.dev)
 
 **TLDR;**
