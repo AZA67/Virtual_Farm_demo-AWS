@@ -6,6 +6,10 @@
 *This serverless micro-architecture design implements several AWS services in order to construct a scalable, cost-friendly architecture; ideal for demoing web applications or lightweight backend application logic.*
 
 ---
+### Overview
+![architecture overview](AWS-serverless-static-webapp.svg)
+
+---
 # Configuration via [Terraform](https://github.com/AZA67/Virtual_Farm_demo-AWS/tree/main/terraform)
 - this configuration provisions a customizable replica of the [live site](https://qmgnyc.dev) from scratch
 - there is a [setup script](https://github.com/AZA67/Virtual_Farm_demo-AWS/blob/main/terraform/setup.sh) I crafted to make the initial configuration easier.
@@ -50,8 +54,7 @@
 () *not free tier eligible*
 
 ---
-### Overview
-![architecture overview](AWS-serverless-static-webapp.svg)
+
 
 
 
