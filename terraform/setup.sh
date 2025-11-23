@@ -54,7 +54,7 @@ popd > /dev/null
 #
 #------Configure domain and DNS------#
 #
-pushd ./route53/ > /dev/
+pushd ./route53/ > /dev/null
 
 echo "adding variables and backend"
 
