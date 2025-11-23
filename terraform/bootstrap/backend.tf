@@ -42,3 +42,7 @@ resource "aws_dynamodb_table" "tf_state_lock" {
     type = "S"
   }
 }
+
+resource "aws_route53_zone" "main" {
+  name = "${var.domain_name}"
+}
