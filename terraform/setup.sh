@@ -64,8 +64,8 @@ EOF
 sed -i '6r /dev/stdin' variables.tf <<EOF
   default = "${project_name}"
 EOF
-sed -i '10r /dev/stdin' variables.tf <<EOF
-  default - "${region}"
+sed -i '11r /dev/stdin' variables.tf <<EOF
+  default = "${region}"
 EOF
 
 sed -i '1r /dev/stdin' main.tf <<EOF
@@ -78,7 +78,7 @@ sed -i '1r /dev/stdin' main.tf <<EOF
       }
 EOF
 
-terrafrom init
+terraform init
 terraform apply --auto-approve
 
 cat namservers.txt
