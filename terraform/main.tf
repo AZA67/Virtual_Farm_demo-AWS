@@ -12,14 +12,22 @@ provider "aws" {
     region = var.region
 }
 
-#import acm cert for Cloudfront Configuration
+#import route53 zone id from bootstrap
 data "terraform_remote_state" "route53" {
     backend = "s3"
     config = {
         bucket = "${var.project_name}-tf-state"
-        key = "route53/terraform.tfstate"
+        key = "backend/terraform.tfstate"
         region = "${var.region}"
     }
+}
+
+module "route53" {
+    source = "./modules/route53"
+    domain_name = var.domain_name
+    project_name = var.project_name
+
+    zone_id = data.terraform_remote_state.route53.outputs.zone_id
 }
 
 module "s3_static_site" {
@@ -58,7 +66,7 @@ module "cf_distro" {
     bucket_arn = module.s3_static_site.bucket_arn
     bucket_regional_domain_name = module.s3_static_site.bucket_regional_domain_name
     bucket_name = module.s3_static_site.bucket_name
-    acm_certificate_arn = data.terraform_remote_state.route53.aws_acm_certificate.acm-cert.arn
+    acm_certificate_arn = module.route53.acm_certificate_arn.acm-cert.arn
     http_api_id = module.http-api.http_api_id
 }
 

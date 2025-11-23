@@ -1,26 +1,3 @@
-terraform {
-    required_version = ">=1.13"
-    required_providers {
-        aws = {
-            source = "hashicorp/aws"
-            version = ">6.0"
-        }
-    }
-}
-
-provider "aws" {
-    region = var.region
-}
-
-# Route 53 Public Hosted Zone
-resource "aws_route53_zone" "main" {
-  name = "${var.domain_name}"
-
-  tags = {
-    project_name = "${var.project_name}"
-  }
-}
-
 # ACM Certificate (us-east-1)
 provider "aws" {
   alias = "acm"
@@ -50,10 +27,11 @@ resource "aws_route53_record" "cert_validation_records" {
         value = dvo.resource_record_value
     }
   }
-  zone_id = aws_route53_zone.main.zone_id
+  allow_overwrite = true
+  zone_id = var.zone_id
   name = each.value.name
   type = each.value.type
-  ttl = 300
+  ttl = 60
   records = [each.value.value]
 }
 
