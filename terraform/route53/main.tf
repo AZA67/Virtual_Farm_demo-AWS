@@ -1,3 +1,17 @@
+terraform {
+    required_version = ">=1.13"
+    required_providers {
+        aws = {
+            source = "hashicorp/aws"
+            version = ">6.0"
+        }
+    }
+}
+
+provider "aws" {
+    region = var.region
+}
+
 # Route 53 Public Hosted Zone
 resource "aws_route53_zone" "main" {
   name = "${var.domain_name}"
