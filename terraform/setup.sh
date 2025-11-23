@@ -48,7 +48,7 @@ echo "re-initializing for remote backend"
 terraform init --force-copy #auto-yes for migrate state prompt
 
 ##--NEED to add domain nameservers to registrar where you purchased domain--##
-cat namservers.txt
+cat nameservers.txt
 echo "please add nameservers to your domain registrar before continuing"
 echo "/n press ENTER to continue..."
 read
