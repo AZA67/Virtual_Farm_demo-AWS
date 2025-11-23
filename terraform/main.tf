@@ -27,7 +27,7 @@ module "route53" {
     domain_name = var.domain_name
     project_name = var.project_name
 
-    zone_id = data.terraform_remote_state.route53.outputs.zone_id
+    zone_id = data.terraform_remote_state.route53.outputs.aws_route53_zone
 }
 
 module "s3_static_site" {
@@ -58,6 +58,7 @@ module "http-api" {
 }
 
 module "cf_distro" {
+    depends_on = [ module.route53 ]
     source = "./modules/cf_distro"
     project_name = var.project_name
     domain_name = var.domain_name
@@ -66,7 +67,7 @@ module "cf_distro" {
     bucket_arn = module.s3_static_site.bucket_arn
     bucket_regional_domain_name = module.s3_static_site.bucket_regional_domain_name
     bucket_name = module.s3_static_site.bucket_name
-    acm_certificate_arn = module.route53.acm_certificate_arn.acm-cert.arn
+    acm_certificate_arn = module.route53.acm_certificate_arn
     http_api_id = module.http-api.http_api_id
 }
 
