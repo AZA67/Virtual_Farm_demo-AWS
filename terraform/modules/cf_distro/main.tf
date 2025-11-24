@@ -53,17 +53,17 @@ locals {
   api_origin_id = "api-origin"
 }
 
-#AWS provided policies for API ORIGIN#
-data "aws_cloudfront_cache_policy" "no_cache" {
-  name = "Managed-CachingDisabled"
+#HARCODED cache policy IDs to avoid "ERROR: Provider produced incosistent final plan"
+## REF: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html
+locals {
+  s3_cache = "658327ea-f89d-4fab-a63d-7e88639e58f6" #Managed-CachingOptimized
+  no_cache = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" #Managed-CachingDisabled
 }
 
-data "aws_cloudfront_cache_policy" "s3_cache" {
-  name = "Managed-CachingOptimized"
-}
-
-data "aws_cloudfront_origin_request_policy" "all_viewer_except_host" {
-  name = "Managed-AllViewerExceptHostHeader"
+#HARCODED origin request policy ID
+## REF: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html
+locals {
+  all_viewer_except_host = "b689b0a8-53d0-40ab-baf2-68738e2966ac" #Managed-AllViewerExceptHostHeader
 }
 
 
@@ -89,7 +89,7 @@ resource "aws_cloudfront_distribution" "cdn" {
       cached_methods = ["GET", "HEAD"]
       compress = true
 
-      cache_policy_id = data.aws_cloudfront_cache_policy.s3_cache.id
+      cache_policy_id = local.s3_cache
     }
     #----------------------------#
 
@@ -116,8 +116,8 @@ resource "aws_cloudfront_distribution" "cdn" {
       allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
       cached_methods  = ["GET", "HEAD", "OPTIONS"]
 
-      cache_policy_id            = data.aws_cloudfront_cache_policy.no_cache.id
-      origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.all_viewer_except_host.id
+      cache_policy_id            = local.no_cache
+      origin_request_policy_id   = local.all_viewer_except_host
     }
     #------------------------#
 
